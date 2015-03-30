@@ -7,7 +7,7 @@
  * @author        Guillermo Vargas (guille@vargas.co.cr)
  */
 // No direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.database.query');
 
@@ -18,11 +18,9 @@ jimport('joomla.database.query');
  * @subpackage     com_xmap
  * @since          2.0
  */
-class XmapHelper
-{
+class XmapHelper {
 
-    public static function &getMenuItems($selections)
-    {
+    public static function &getMenuItems($selections) {
         $db = JFactory::getDbo();
         $app = JFactory::getApplication();
         $user = JFactory::getUser();
@@ -34,9 +32,9 @@ class XmapHelper
             $query = $db->getQuery(true);
             $query->select(
                     'n.id, n.title, n.alias, n.path, n.level, n.link, '
-                  . 'n.type, n.params, n.home, n.parent_id'
-                  . ',n.'.$db->quoteName('browserNav')
-                  );
+                    . 'n.type, n.params, n.home, n.parent_id'
+                    . ',n.' . $db->quoteName('browserNav')
+            );
             $query->from('#__menu AS n');
             $query->join('INNER', ' #__menu AS p ON p.lft = 0');
             $query->where('n.lft > p.lft');
@@ -52,7 +50,7 @@ class XmapHelper
 
             // Filter by language
             if ($app->getLanguageFilter()) {
-                $query->where('n.language in ('.$db->quote(JFactory::getLanguage()->getTag()).','.$db->quote('*').')');
+                $query->where('n.language in (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
             }
 
             // Get the list of menu items.
@@ -71,7 +69,7 @@ class XmapHelper
                 $item->items = array();
 
                 $params = new JRegistry($item->params);
-                $item->uid = 'itemid'.$item->id;
+                $item->uid = 'itemid' . $item->id;
 
                 if (preg_match('#^/?index.php.*option=(com_[^&]+)#', $item->link, $matches)) {
                     $item->option = $matches[1];
@@ -106,8 +104,7 @@ class XmapHelper
         return $list;
     }
 
-    public static function &getExtensions()
-    {
+    public static function &getExtensions() {
         static $list;
 
         jimport('joomla.html.parameter');
@@ -130,8 +127,8 @@ class XmapHelper
         $extensions = $db->loadObjectList('element');
 
         foreach ($extensions as $element => $extension) {
-            if (file_exists(JPATH_PLUGINS . '/' . $extension->folder . '/' . $element. '/'. $element . '.php')) {
-                require_once(JPATH_PLUGINS . '/' . $extension->folder . '/' . $element. '/'. $element . '.php');
+            if (file_exists(JPATH_PLUGINS . '/' . $extension->folder . '/' . $element . '/' . $element . '.php')) {
+                require_once(JPATH_PLUGINS . '/' . $extension->folder . '/' . $element . '/' . $element . '.php');
                 $params = new JRegistry($extension->params);
                 $extension->params = $params->toArray();
                 $list[$element] = $extension;
@@ -148,23 +145,20 @@ class XmapHelper
      *
      * @return    void
      */
-    public static function prepareMenuItem($item)
-    {
+    public static function prepareMenuItem($item) {
         $extensions = XmapHelper::getExtensions();
         if (!empty($extensions[$item->option])) {
             $className = 'xmap_' . $item->option;
             $obj = new $className;
             if (method_exists($obj, 'prepareMenuItem')) {
-                $obj->prepareMenuItem($item,$extensions[$item->option]->params);
+                $obj->prepareMenuItem($item, $extensions[$item->option]->params);
             }
         }
     }
 
-
-    static function getImages($text,$max)
-    {
+    static function getImages($text, $max) {
         if (!isset($urlBase)) {
-            $urlBase = JURI::base();
+            $urlBase = JUri::base();
             $urlBaseLen = strlen($urlBase);
         }
 
@@ -174,7 +168,7 @@ class XmapHelper
         preg_match_all('/<img[^>]*?(?:(?:[^>]*src="(?P<src>[^"]+)")|(?:[^>]*alt="(?P<alt>[^"]+)")|(?:[^>]*title="(?P<title>[^"]+)"))+[^>]*>/i', $text, $matches1, PREG_SET_ORDER);
         // Loog for <a> tags with href to images
         preg_match_all('/<a[^>]*?(?:(?:[^>]*href="(?P<src>[^"]+\.(gif|png|jpg|jpeg))")|(?:[^>]*alt="(?P<alt>[^"]+)")|(?:[^>]*title="(?P<title>[^"]+)"))+[^>]*>/i', $text, $matches2, PREG_SET_ORDER);
-        $matches = array_merge($matches1,$matches2);
+        $matches = array_merge($matches1, $matches2);
         if (count($matches)) {
             $images = array();
 
@@ -200,12 +194,10 @@ class XmapHelper
         return $images;
     }
 
-    static function getPagebreaks($text,$baseLink)
-    {
+    static function getPagebreaks($text, $baseLink) {
         $matches = $subnodes = array();
         if (preg_match_all(
-                '/<hr\s*[^>]*?(?:(?:\s*alt="(?P<alt>[^"]+)")|(?:\s*title="(?P<title>[^"]+)"))+[^>]*>/i',
-                $text, $matches, PREG_SET_ORDER)
+                        '/<hr\s*[^>]*?(?:(?:\s*alt="(?P<alt>[^"]+)")|(?:\s*title="(?P<title>[^"]+)"))+[^>]*>/i', $text, $matches, PREG_SET_ORDER)
         ) {
             $i = 2;
             foreach ($matches as $match) {
@@ -227,8 +219,8 @@ class XmapHelper
                     $i++;
                 }
             }
-
         }
         return $subnodes;
     }
+
 }
