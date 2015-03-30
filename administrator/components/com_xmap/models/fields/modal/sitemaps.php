@@ -70,7 +70,7 @@ class JFormFieldModal_Sitemaps extends JFormField
 
         $link = 'index.php?option=com_xmap&amp;view=sitemaps&amp;layout=modal&amp;tmpl=component&amp;function=jSelectSitemap_' . $this->id;
 
-        JHTML::_('behavior.modal', 'a.modal');
+        JHtml::_('behavior.modal', 'a.modal');
         $html = '<span class="input-append">';
         $html .= "\n" . '<input class="input-medium" type="text" id="' . $this->id . '_name" value="' . htmlspecialchars($title, ENT_QUOTES, 'UTF-8') . '" disabled="disabled" />';
         if(version_compare(JVERSION,'3.0.0','ge'))

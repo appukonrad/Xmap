@@ -29,7 +29,7 @@ class JElementSitemap extends JElement
         $db->setQuery($sql);
         $rows = $db->loadObjectList();
 
-        $html = JHTML::_('select.genericlist',$rows,$fieldName,'','id','name',$value);
+        $html = JHtml::_('select.genericlist',$rows,$fieldName,'','id','name',$value);
 
         return $html;
     }

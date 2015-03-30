@@ -49,7 +49,7 @@ class XmapViewSitemap extends JViewLegacy
             return false;
         }
 
-        JHTML::stylesheet('administrator/components/com_xmap/css/xmap.css');
+        JHtml::stylesheet('administrator/components/com_xmap/css/xmap.css');
         // Convert dates from UTC
         $offset = $app->getCfg('offset');
         if (intval($this->item->created)) {
@@ -85,8 +85,8 @@ class XmapViewSitemap extends JViewLegacy
             return false;
         }
 
-        JHTML::script('mootree.js', 'media/system/js/');
-        JHTML::stylesheet('mootree.css', 'media/system/css/');
+        JHtml::script('mootree.js', 'media/system/js/');
+        JHtml::stylesheet('mootree.css', 'media/system/css/');
 
         $this->loadTemplate('class');
         $displayer = new XmapNavigatorDisplayer($state->params, $this->item);
