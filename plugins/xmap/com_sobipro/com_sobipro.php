@@ -225,7 +225,7 @@ class xmap_com_sobipro {
         define( 'SOBI_ACL', 'front' );
         define( 'SOBI_ROOT', JPATH_ROOT );
         define( 'SOBI_MEDIA', implode( '/', array( JPATH_ROOT, 'media', 'sobipro' ) ) );
-        define( 'SOBI_MEDIA_LIVE', JURI::root().'/media/sobipro' );
+        define( 'SOBI_MEDIA_LIVE', JUri::root().'/media/sobipro' );
         define( 'SOBI_PATH', SOBI_ROOT.'/components/com_sobipro' );
         if (!file_exists(SOBI_PATH.'/lib/base/fs/loader.php')) {
            return false;

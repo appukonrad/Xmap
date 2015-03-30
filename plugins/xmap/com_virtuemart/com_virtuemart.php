@@ -136,7 +136,7 @@ class xmap_com_virtuemart
 
 		if (!isset($urlBase))
 		{
-			$urlBase = JURI::base();
+			$urlBase = JUri::base();
 		}
 
 		$vendorId = 1;

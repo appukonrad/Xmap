@@ -26,7 +26,7 @@ class XmapHtmlDisplayer extends XmapDisplayer {
         parent::__construct($config, $sitemap);
         $this->_parent_children=array();
         $this->_last_child=array();
-        $this->live_site = substr_replace(JURI::root(), "", -1, 1);
+        $this->live_site = substr_replace(JUri::root(), "", -1, 1);
 
         $user = JFactory::getUser();
     }

@@ -158,7 +158,7 @@ class XmapDisplayer {
 
             if ($node->home == 1) {
                 // Correct the URL for the home page.
-                $node->link = JURI::base();
+                $node->link = JUri::base();
             }
             switch ($item->type)
             {

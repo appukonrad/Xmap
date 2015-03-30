@@ -64,7 +64,7 @@ class XmapViewHtml extends JViewLegacy
         $params = &$this->state->params;
         $offset = $this->state->get('page.offset');
         if ($params->get('include_css', 0)){
-            $doc->addStyleSheet(JURI::root().'components/com_xmap/assets/css/xmap.css');
+            $doc->addStyleSheet(JUri::root().'components/com_xmap/assets/css/xmap.css');
         }
 
         // If a guest user, they may be able to log in to view the full article

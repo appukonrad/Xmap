@@ -59,7 +59,7 @@ class XmapNavigatorDisplayer extends XmapDisplayer {
                     // Prepare the node link
                     XmapHelper::prepareMenuItem($node);
                     if ( $item->home ) {
-                        $node->link = JURI::root();
+                        $node->link = JUri::root();
                     } elseif (substr($item->link,0,9) == 'index.php' && $item->type != 'url' ) {
                         if ($item->type == 'menulink') {// For Joomla 1.5 SEF compatibility
                             $params = new JParameter($item->params);

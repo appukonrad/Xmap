@@ -12,7 +12,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 // Create shortcut to parameters.
 $params = $this->item->params;
 
-$live_site = substr_replace(JURI::root(), "", -1, 1);
+$live_site = substr_replace(JUri::root(), "", -1, 1);
 
 header('Content-type: text/xml; charset=utf-8');
 
