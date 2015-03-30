@@ -127,9 +127,9 @@ class XmapViewXml extends JViewLegacy
 
         if ($doCompression) {
             $data = ob_get_contents();
-            JResponse::setBody($data);
+            JApplicationWeb::setBody($data);
             @ob_end_clean();
-            echo JResponse::toString(true);
+            echo JApplicationCms::toString(true);
         }
         $this->recreateBuffering();
         exit;
