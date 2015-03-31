@@ -38,6 +38,7 @@ abstract class JHtmlXmap {
      */
     public static function changefrequency($name, $value = 'weekly', $j) {
         // Array of options
+        
         $options[] = JHtml::_('select.option', 'hourly', 'hourly');
         $options[] = JHtml::_('select.option', 'daily', 'daily');
         $options[] = JHtml::_('select.option', 'weekly', 'weekly');

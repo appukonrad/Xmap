@@ -1,21 +1,23 @@
 <?php
+
 /**
  * @version     $Id$
  * @copyright   Copyright (C) 2007 - 2009 Joomla! Vargas. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  * @author      Guillermo Vargas (guille@vargas.co.cr)
  */
-
 // no direct access
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
 # For compatibility with older versions of Joola 2.5
-if (!class_exists('JViewLegacy')){
-    class JViewLegacy extends JView {
+if (!class_exists('JViewLegacy')) {
 
+    class JViewLegacy extends JView {
+        
     }
+
 }
 
 /**
@@ -23,8 +25,8 @@ if (!class_exists('JViewLegacy')){
  * @subpackage  com_xmap
  * @since       2.0
  */
-class XmapViewSitemaps extends JViewLegacy
-{
+class XmapViewSitemaps extends JViewLegacy {
+
     protected $state;
     protected $items;
     protected $pagination;
@@ -32,20 +34,19 @@ class XmapViewSitemaps extends JViewLegacy
     /**
      * Display the view
      */
-    public function display($tpl = null)
-    {
+    public function display($tpl = null) {
         if ($this->getLayout() !== 'modal') {
             XmapHelper::addSubmenu('sitemaps');
         }
 
-        $this->state      = $this->get('State');
-        $this->items      = $this->get('Items');
+        $this->state = $this->get('State');
+        $this->items = $this->get('Items');
         $this->pagination = $this->get('Pagination');
 
         $version = new JVersion;
 
         $message = $this->get('ExtensionsMessage');
-        if ( $message ) {
+        if ($message) {
             JFactory::getApplication()->enqueueMessage($message);
         }
 
@@ -54,6 +55,8 @@ class XmapViewSitemaps extends JViewLegacy
             JError::raiseError(500, implode("\n", $errors));
             return false;
         }
+
+        JHtml::stylesheet('administrator/components/com_xmap/css/xmap.css');
 
         // We don't need toolbar in the modal window.
         if ($this->getLayout() !== 'modal') {
@@ -71,8 +74,7 @@ class XmapViewSitemaps extends JViewLegacy
      *
      * @access      private
      */
-    protected function addToolbar()
-    {
+    protected function addToolbar() {
         $state = $this->get('State');
         $doc = JFactory::getDocument();
         $version = new JVersion;
@@ -91,28 +93,24 @@ class XmapViewSitemaps extends JViewLegacy
             JToolBarHelper::custom('sitemaps.setdefault', 'default.png', 'default_f2.png', 'XMAP_TOOLBAR_SET_DEFAULT', true);
         }
         if ($state->get('filter.published') == -2) {
-            JToolBarHelper::deleteList('', 'sitemaps.delete','JTOOLBAR_DELETE');
-        }
-        else {
-            JToolBarHelper::trash('sitemaps.trash','JTOOLBAR_TRASH');
+            JToolBarHelper::deleteList('', 'sitemaps.delete', 'JTOOLBAR_DELETE');
+        } else {
+            JToolBarHelper::trash('sitemaps.trash', 'JTOOLBAR_TRASH');
         }
         JToolBarHelper::divider();
 
 
-        if (class_exists('JHtmlSidebar')){
+        if (class_exists('JHtmlSidebar')) {
             JHtmlSidebar::addFilter(
-                JText::_('JOPTION_SELECT_PUBLISHED'),
-                'filter_published',
-                JHtml::_('select.options', JHtml::_('jgrid.publishedOptions'), 'value', 'text', $this->state->get('filter.published'), true)
+                    JText::_('JOPTION_SELECT_PUBLISHED'), 'filter_published', JHtml::_('select.options', JHtml::_('jgrid.publishedOptions'), 'value', 'text', $this->state->get('filter.published'), true)
             );
 
             JHtmlSidebar::addFilter(
-                JText::_('JOPTION_SELECT_ACCESS'),
-                'filter_access',
-                JHtml::_('select.options', JHtml::_('access.assetgroups'), 'value', 'text', $this->state->get('filter.access'))
+                    JText::_('JOPTION_SELECT_ACCESS'), 'filter_access', JHtml::_('select.options', JHtml::_('access.assetgroups'), 'value', 'text', $this->state->get('filter.access'))
             );
 
             $this->sidebar = JHtmlSidebar::render();
         }
     }
+
 }

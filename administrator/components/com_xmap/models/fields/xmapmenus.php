@@ -8,7 +8,7 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.html.html');
-require_once JPATH_LIBRARIES . '/joomla/form/fields/list.php';
+JFormHelper::loadFieldClass('list');
 
 /**
  * Menus Form Field class for the Xmap Component
