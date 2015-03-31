@@ -11,8 +11,11 @@ defined('_JEXEC') or die;
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 JHtml::_('bootstrap.tooltip');
-//JHtml::_('behavior.multiselect');
+JHtml::_('behavior.multiselect');
 JHtml::_('formbehavior.chosen', 'select');
+
+$doc = JFactory::getDocument();
+$doc->addStyleSheet($this->baseurl . '/media/jui/css/bootstrap.min.css');
 
 $n = count($this->items);
 $baseUrl = JUri::root();
@@ -47,35 +50,31 @@ $version = new JVersion;
                     <thead>
                         <tr>
                             <th width="1%" class="center">
-                                <input type="checkbox" name="checkall-toggle" value="" title="<?php echo JText::_('JGLOBAL_CHECK_ALL'); ?>" onclick="if (typeof Joomla != 'undefined') {
-                                            Joomla.checkAll(this)
-                                        } else {
-                                            checkAll(this)
-                                        }" />
+                                <?php echo JHtml::_('grid.checkall'); ?>
                             </th>
                             <th width="1%" style="min-width:55px" class="nowrap center">
                                 <?php echo JHtml::_('grid.sort', 'JSTATUS', 'a.state', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
                             </th>
-                            <th class="title">
-                                <?php echo JHtml::_('grid.sort', 'Xmap_Heading_Sitemap', 'a.title', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+                            <th >
+                                <?php echo JHtml::_('grid.sort', 'JGLOBAL_TITLE', 'a.title', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
                             </th>
-                            <th class="title">
+                            <th width="10%" class="nowrap hidden-phone">
                                 Verze
                             </th>
 
-                            <th>
-                                <?php echo JHtml::_('grid.sort', 'Xmap_Heading_Access', 'access_level', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+                            <th width="10%" class="nowrap hidden-phone">
+                                <?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ACCESS', 'access_level', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
                             </th>
-                            <th>
+                            <th width="10%" class="nowrap hidden-phone">
                                 <?php echo JText::_('Xmap_Heading_Html_Stats'); ?><br />
                                 (<?php echo JText::_('Xmap_Heading_Num_Links') . ' / ' . JText::_('Xmap_Heading_Num_Hits') . ' / ' . JText::_('Xmap_Heading_Last_Visit'); ?>)
                             </th>
-                            <th>
+                            <th width="10%" class="nowrap hidden-phone">
                                 <?php echo JText::_('Xmap_Heading_Xml_Stats'); ?><br />
                                 <?php echo JText::_('Xmap_Heading_Num_Links') . '/' . JText::_('Xmap_Heading_Num_Hits') . '/' . JText::_('Xmap_Heading_Last_Visit'); ?>
                             </th>
-                            <th>
-                                <?php echo JHtml::_('grid.sort', 'Xmap_Heading_ID', 'a.id', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+                            <th width="1%" class="nowrap hidden-phone">
+                                <?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ID', 'a.id', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
                             </th>
                         </tr>
                     </thead>
@@ -128,18 +127,27 @@ $version = new JVersion;
                                 <td class="center">
                                     <div class="btn-group">
                                         <?php echo JHtml::_('jgrid.published', $item->state, $i, 'sitemaps.'); ?>
-                                    <?php if ($item->is_default == 1) : ?>
-                                        <?php if (version_compare($version->getShortVersion(), '3.0.0', '>=')): ?>
-                                        
-                                        <span class="btn btn-micro icon-featured"></span>
+                                        <?php if ($item->is_default == 1) : ?>
+                                            <a class="btn btn-micro"><i class="icon-featured"></i></a>
                                         <?php else: ?>
-                                            <img src="templates/bluestork/images/menu/icon-16-default.png" alt="<?php echo JText::_('Default'); ?>" />
+                                            <a class="btn btn-micro "><i class="icon-unfeatured"></i></a>
+
                                         <?php endif; ?>
-                                    <?php endif; ?>
+                                        <?php
+                                        // Create dropdown items
+                                        $action = $archived ? 'unarchive' : 'archive';
+                                        JHtml::_('actionsdropdown.' . $action, 'cb' . $i, 'sitemaps');
+
+                                        $action = $trashed ? 'untrash' : 'trash';
+                                        JHtml::_('actionsdropdown.' . $action, 'cb' . $i, 'sitemaps');
+
+                                        // Render dropdown list
+                                        echo JHtml::_('actionsdropdown.render', $this->escape($item->title));
+                                        ?>
                                     </div>
                                 </td>
                                 <td>
-                                    
+
                                     <a href="<?php echo JRoute::_('index.php?option=com_xmap&task=sitemap.edit&id=' . $item->id); ?>">
 
                                         <?php echo $this->escape($item->title); ?></a> <small>(<?php echo $this->escape($item->alias); ?>)</small>
@@ -156,13 +164,13 @@ $version = new JVersion;
                                     <?php endif; ?>
                                 </td>
 
-                                <td class="center">
+                                <td class="">
                                     <?php echo $this->escape($item->access_level); ?>
                                 </td>
-                                <td class="center">
+                                <td class="">
                                     <?php echo $item->count_html . ' / ' . $item->views_html . ' / ' . $htmlDate; ?>
                                 </td>
-                                <td class="center">
+                                <td class="">
                                     <?php echo $item->count_xml . ' / ' . $item->views_xml . ' / ' . $xmlDate; ?>
                                 </td>
                                 <td class="center">
